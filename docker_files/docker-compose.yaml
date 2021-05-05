@@ -1,0 +1,91 @@
+version: "3"
+
+services:
+
+# Start the MySQL server for Gitea
+  db:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=gitea
+      - MYSQL_USER=gitea
+      - MYSQL_PASSWORD=gitea
+      - MYSQL_DATABASE=gitea
+    ports:
+       - "3306:3306"
+    network_mode: bridge
+    volumes:
+     - /docker-location/mysql:/var/lib/mysql
+
+# Start the Gitea server
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    environment:
+      - USER_UID=1001
+      - USER_GID=1001
+      - DB_TYPE=mysql
+      - DB_HOST=db:3306
+      - DB_NAME=gitea
+      - DB_USER=gitea
+      - DB_PASSWD=gitea
+    restart: always
+    network_mode: bridge
+    volumes:
+      - /docker-location:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+       - "3000:3000"
+       - "2222:22"
+    depends_on:
+      - db
+
+# Start the Drone server
+  drone-server:
+    image: drone/drone:latest
+    #image: ruanbekker/drone-server:basic-auth-1.2.1
+    container_name: drone-server
+    ports:
+      - 8080:80
+      - 9000
+    volumes:
+      - /docker-location/drone/server:/var/lib/drone/
+    restart: always
+    depends_on:
+      - gitea
+    environment:
+      - DRONE_OPEN=true
+      - DRONE_GITEA=true
+      - DRONE_GITEA_SERVER=https://<IP ADDRESS DOCKER VM>:3000
+      - DRONE_GITEA_SKIP_VERIFY=true
+      - DRONE_GIT_ALWAYS_AUTH=true
+      - DRONE_GITEA_CLIENT_ID=<GITEA CLIENT ID>
+      - DRONE_GITEA_CLIENT_SECRET=<GITEA CLIENT SECRET>
+      - DRONE_RPC_SECRET=9c3921e3e748aff725d2e16ef31fbc42
+      - DRONE_SERVER_HOST=<IP ADDRESS DOCKER VM>:8080
+      - DRONE_SERVER_PROTO=http
+      - DRONE_TLS_AUTOCERT=false
+      - DRONE_AGENTS_ENABLED=true
+      - DRONE_USER_CREATE=username:nutanix,admin:true
+    network_mode: bridge
+
+# Start the drone docker runner
+  drone-docker-runner:
+    image: drone/drone-runner-docker:latest
+    container_name: drone-runner-docker
+    command: runner
+    restart: always
+    depends_on:
+      - drone-server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /docker-location/drone/agent:/data
+    environment:
+      - DRONE_RPC_HOST=<IP ADDRESS DOCKER VM>:8080
+      - DRONE_RPC_PROTO=http
+      - DRONE_RPC_SECRET=9c3921e3e748aff725d2e16ef31fbc42
+      - DRONE_RUNNER_CAPACITY=1
+      - DRONE_RUNNER_VOLUMES=/docker-location/drone/agent:/data
+    network_mode: bridge
