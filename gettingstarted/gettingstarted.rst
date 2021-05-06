@@ -4,7 +4,7 @@
 Getting Started
 ---------------
 
-TLab Prerequisites
+Lab Prerequisites
 +++++++++++++++++
 
 In order to complete the following lab, you will require a **Docker Hub** account. **Docker Hub** is a web service used to create, share, manage, and deliver Docker containers within specific teams or the larger Docker community. In the lab it will be used to save and host the container image you will create.
