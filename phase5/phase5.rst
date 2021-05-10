@@ -146,7 +146,7 @@ We will now update our **.drone.yml** with an additional **step** to conditional
     steps:
 
       - name: Build Image (Prod)
-        image: public.ecr.aws/n5p3f3u5/docker:latest
+        image: wessenstam/docker:latest
 
         pull: if-not-exists
         volumes:
@@ -159,7 +159,7 @@ We will now update our **.drone.yml** with an additional **step** to conditional
             - master
 
       - name: Build Image (Dev)
-        image: public.ecr.aws/n5p3f3u5/docker:latest
+        image: wessenstam/docker:latest
 
         pull: if-not-exists
         volumes:
@@ -234,7 +234,7 @@ We will now update our **.drone.yml** with an additional **step** to conditional
             - dev
 
       - name: Push to Dockerhub (Prod)
-        image: public.ecr.aws/n5p3f3u5/docker:latest
+        image: wessenstam/docker:latest
 
         pull: if-not-exists
         environment:
@@ -256,7 +256,7 @@ We will now update our **.drone.yml** with an additional **step** to conditional
             - master
 
       - name: Deploy Prod image
-        image: public.ecr.aws/n5p3f3u5/docker:latest
+        image: wessenstam/docker:latest
         pull: if-not-exists
         environment:
           USERNAME:
@@ -285,7 +285,7 @@ We will now update our **.drone.yml** with an additional **step** to conditional
             - master
 
       - name: Deploy Dev image
-        image: public.ecr.aws/n5p3f3u5/docker:latest
+        image: wessenstam/docker:latest
         pull: if-not-exists
         environment:
           USERNAME:
@@ -573,7 +573,7 @@ Now we need to make sure that the development container is using the newly creat
       # This dockerfile multi step is to start the container faster as the runapp.sh doesn't have to run all npm steps
 
       # Grab the Alpine Linux OS image and name the container base
-      FROM public.ecr.aws/n5p3f3u5/ntnx-alpine:latest as base
+      FROM wessenstam/ntnx-alpine:latest as base
 
       # Install needed packages
       RUN apk add --no-cache --update nodejs npm git
@@ -591,7 +591,7 @@ Now we need to make sure that the development container is using the newly creat
       RUN cd /code/Fiesta/client && npm run build
 
       # Grab the Alpine Linux OS image and name it Final_Image
-      FROM public.ecr.aws/n5p3f3u5/ntnx-alpine:latest as Final_Image
+      FROM wessenstam/ntnx-alpine:latest as Final_Image
 
       # Install some needed packages
       RUN apk add --no-cache --update nodejs npm mysql-client

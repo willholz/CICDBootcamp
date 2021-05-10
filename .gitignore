@@ -12,3 +12,4 @@ _build
 ehthumbs.db
 Thumbs.db
 ~$*
+.vscode/settings.json

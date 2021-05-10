@@ -206,7 +206,7 @@ Drone is looking for a file **.drone.yml** in the root of the repo to tell it wh
       steps:
 
       - name: build test image
-        image: public.ecr.aws/n5p3f3u5/docker:latest
+        image: docker:latest
         pull: if-not-exists
         volumes:
           - name: docker_sock
@@ -249,7 +249,7 @@ Drone is looking for a file **.drone.yml** in the root of the repo to tell it wh
    .. code-block:: docker
 
       # Grab the needed OS image
-      FROM public.ecr.aws/n5p3f3u5/ntnx-alpine:latest
+      FROM wessenstam/ntnx-alpine:latest
 
       # Install the needed packages
       RUN apk add --no-cache --update nodejs npm mysql-client git python3 python3-dev gcc g++ unixodbc-dev curl
@@ -484,7 +484,7 @@ As we do not want to save our **Docker Hub** credentials in plaintext inside of 
    .. code-block:: yaml
 
       - name: Push to Dockerhub
-        image: public.ecr.aws/n5p3f3u5/docker:latest
+        image: docker:latest
         pull: if-not-exists
         environment:
           USERNAME:
@@ -533,7 +533,7 @@ This type of automation is how mature DevOps teams found at organizations like *
    .. code-block:: yaml
 
     - name: Deploy newest image
-      image: public.ecr.aws/n5p3f3u5/docker:latest
+      image: docker:latest
       pull: if-not-exists
       environment:
         USERNAME:
@@ -616,7 +616,7 @@ The following are parameters being used inside of either **.drone.yml** and/or *
       steps:
 
         - name: build test image
-          image: public.ecr.aws/n5p3f3u5/docker:latest
+          image: docker:latest
           pull: if-not-exists
           volumes:
             - name: docker_sock
@@ -654,7 +654,7 @@ The following are parameters being used inside of either **.drone.yml** and/or *
             - sed -i "s/REPLACE_DB_PASSWORD/$DB_PASSWD/g" /code/Fiesta/config/config.js
 
         - name: Push to Dockerhub
-          image: public.ecr.aws/n5p3f3u5/docker:latest
+          image: wessenstam/docker:latest
           pull: if-not-exists
           environment:
             USERNAME:
@@ -672,7 +672,7 @@ The following are parameters being used inside of either **.drone.yml** and/or *
             - docker push $USERNAME/fiesta_app:latest
 
         - name: Deploy newest image
-          image: public.ecr.aws/n5p3f3u5/docker:latest
+          image: wessenstam/docker:latest
           pull: if-not-exists
           environment:
             USERNAME:
