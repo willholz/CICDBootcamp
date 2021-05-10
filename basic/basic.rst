@@ -89,7 +89,7 @@ Here's a quick way to visualize these terms, and the overall process. As you can
    .. code-block:: dockerfile
 
       # Grab the needed OS image
-      FROM public.ecr.aws/n5p3f3u5/ntnx-alpine:latest
+      FROM wessenstam/ntnx-alpine:latest
 
       # Install the needed packages
       RUN apk add --no-cache --update nodejs npm mysql-client git python3 python3-dev gcc g++ unixodbc-dev curl
