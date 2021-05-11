@@ -89,7 +89,7 @@ Here's a quick way to visualize these terms, and the overall process. As you can
    .. code-block:: dockerfile
 
       # Grab the needed OS image
-      FROM wessenstam/ntnx-alpine:latest
+      FROM ntnxgteworkshops/alpine:latest
 
       # Install the needed packages
       RUN apk add --no-cache --update nodejs npm mysql-client git python3 python3-dev gcc g++ unixodbc-dev curl
@@ -187,7 +187,7 @@ Here's a quick way to visualize these terms, and the overall process. As you can
 
 #. Run ``docker image ls`` to list your images.
 
-   You should observe two separate images. The **ntnx-alpine** image is the container OS you defined within your **Dockerfile**, and the unidentified container is the Fiesta service you've defined in this exercise.
+   You should observe two separate images. The **alpine** image is the container OS you defined within your **Dockerfile**, and the unidentified container is the Fiesta service you've defined in this exercise.
 
    .. figure:: images/6.png
 
