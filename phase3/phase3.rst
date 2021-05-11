@@ -249,7 +249,7 @@ Drone is looking for a file **.drone.yml** in the root of the repo to tell it wh
    .. code-block:: docker
 
       # Grab the needed OS image
-      FROM wessenstam/ntnx-alpine:latest
+      FROM ntnxgteworkshops/alpine:latest
 
       # Install the needed packages
       RUN apk add --no-cache --update nodejs npm mysql-client git python3 python3-dev gcc g++ unixodbc-dev curl
@@ -654,7 +654,7 @@ The following are parameters being used inside of either **.drone.yml** and/or *
             - sed -i "s/REPLACE_DB_PASSWORD/$DB_PASSWD/g" /code/Fiesta/config/config.js
 
         - name: Push to Dockerhub
-          image: wessenstam/docker:latest
+          image: ntnxgteworkshops/docker:latest
           pull: if-not-exists
           environment:
             USERNAME:
@@ -672,7 +672,7 @@ The following are parameters being used inside of either **.drone.yml** and/or *
             - docker push $USERNAME/fiesta_app:latest
 
         - name: Deploy newest image
-          image: wessenstam/docker:latest
+          image: ntnxgteworkshops/docker:latest
           pull: if-not-exists
           environment:
             USERNAME:
